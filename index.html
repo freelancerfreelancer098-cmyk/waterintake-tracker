@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Water Intake Tracker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+  <!-- Onboarding Screen -->
+  <div id="onboarding" class="screen">
+    <div class="onboarding-container">
+      <div class="logo-icon">
+        <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M40 10C35.5817 10 32 13.5817 32 18V20H48V18C48 13.5817 44.4183 10 40 10Z" fill="#0284c7"/>
+          <path d="M28 20V24C28 25.1046 27.1046 26 26 26H24C19.5817 26 16 29.5817 16 34V66C16 70.4183 19.5817 74 24 74H56C60.4183 74 64 70.4183 64 66V34C64 29.5817 60.4183 26 56 26H54C52.8954 26 52 25.1046 52 24V20H28Z" fill="#38bdf8"/>
+          <path d="M24 34H56V66C56 68.2091 54.2091 70 52 70H28C25.7909 70 24 68.2091 24 66V34Z" fill="#0284c7"/>
+        </svg>
+      </div>
+      <h1 class="onboarding-title">Water Intake Tracker</h1>
+      <p class="onboarding-subtitle">Set your daily hydration goal</p>
+
+      <form id="setup-form" class="setup-form">
+        <div class="form-group">
+          <label class="form-label">Daily Goal (Liters)</label>
+          <input type="number" id="daily-goal" class="form-input" placeholder="2" min="0.5" max="5" step="0.1" value="2" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Glass Size (ML)</label>
+          <input type="number" id="glass-size" class="form-input" placeholder="250" min="50" max="1000" value="250" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-large">Get Started</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Error Message -->
+  <div id="error-message" class="error-message">
+    Glass is empty! Pour water first.
+  </div>
+
+  <!-- Confirmation Popup -->
+  <div id="popup-overlay" class="popup-overlay"></div>
+  <div id="confirm-popup" class="confirm-popup">
+    <h3 class="confirm-popup-title" id="confirm-title">Confirm</h3>
+    <p class="confirm-popup-message" id="confirm-message">Are you sure?</p>
+    <div class="confirm-popup-buttons">
+      <button class="confirm-popup-btn confirm-popup-btn-cancel" id="confirm-cancel">Cancel</button>
+      <button class="confirm-popup-btn confirm-popup-btn-confirm" id="confirm-ok">Confirm</button>
+    </div>
+  </div>
+
+  <!-- Main Tracker Screen -->
+  <div id="tracker" class="screen hidden">
+    <div class="tracker-container">
+      <header class="tracker-header">
+        <div class="header-left">
+          <svg class="header-icon" width="32" height="32" viewBox="0 0 32 32" fill="none">
+            <path d="M16 4C14.3431 4 13 5.34315 13 7V8H19V7C19 5.34315 17.6569 4 16 4Z" fill="#0284c7"/>
+            <path d="M11 8V10C11 10.5523 10.5523 11 10 11H9C7.34315 11 6 12.3431 6 14V26C6 27.6569 7.34315 29 9 29H23C24.6569 29 26 27.6569 26 26V14C26 12.3431 24.6569 11 23 11H22C21.4477 11 21 10.5523 21 10V8H11Z" fill="#38bdf8"/>
+            <path d="M9 14H23V26C23 26.5523 22.5523 27 22 27H10C9.44772 27 9 26.5523 9 26V14Z" fill="#0284c7"/>
+          </svg>
+          <h1 class="header-title">Water Tracker</h1>
+        </div>
+        <div class="header-right">
+          <button id="reset-btn" class="btn-icon" title="Reset Today">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+              <path d="M3 3v5h5"/>
+            </svg>
+          </button>
+          <button id="logout-btn" class="btn-icon" title="Reset All Data">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+              <polyline points="16 17 21 12 16 7"/>
+              <line x1="21" y1="12" x2="9" y2="12"/>
+            </svg>
+          </button>
+        </div>
+      </header>
+
+      <!-- 3D Bottle and Glass Scene -->
+      <div class="scene">
+        <div class="glass-wrapper">
+          <div class="glass-3d" id="glass">
+            <div class="glass-rim"></div>
+            <div class="glass-water" id="glass-water">
+              <div class="glass-water-surface"></div>
+            </div>
+            <div class="glass-reflection"></div>
+            <div class="glass-highlight"></div>
+            <div class="glass-shadow"></div>
+          </div>
+          <div class="glass-label">
+            <span id="glass-amount">0</span>
+            <span class="label-unit">ML</span>
+          </div>
+        </div>
+
+        <div class="bottle-wrapper">
+          <div class="bottle-3d">
+            <div class="bottle-cap"></div>
+            <div class="bottle-neck"></div>
+            <div class="bottle-body">
+              <div class="water-3d" id="bottle-water">
+                <div class="water-surface"></div>
+                <div class="water-bubbles"></div>
+              </div>
+              <div class="bottle-reflection"></div>
+              <div class="bottle-highlight"></div>
+              <div class="bottle-shadow"></div>
+            </div>
+            <div class="bottle-base"></div>
+          </div>
+          <div class="bottle-label">
+            <span id="bottle-amount">2.0</span>
+            <span class="label-unit">L</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Progress Info -->
+      <div class="progress-info">
+        <div class="progress-item">
+          <span class="progress-label">Consumed</span>
+          <span class="progress-value" id="consumed-amount">0 L</span>
+        </div>
+        <div class="progress-item">
+          <span class="progress-label">Goal</span>
+          <span class="progress-value" id="goal-amount">2 L</span>
+        </div>
+        <div class="progress-item">
+          <span class="progress-label">Progress</span>
+          <span class="progress-value" id="progress-percent">0%</span>
+        </div>
+      </div>
+
+      <!-- Action Button -->
+      <button id="drank-btn" class="btn btn-success btn-large hidden">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+          <path d="M20 6L9 17l-5-5"/>
+        </svg>
+        I Drank It
+      </button>
+
+      <!-- Notification Status -->
+      <div class="notification-status" id="notification-status">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M8 5V8L10 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        <span id="next-reminder">Next reminder in 60 minutes</span>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,627 @@
+/* ========================================
+   WATER INTAKE TRACKER - ANIMATIONS
+   3D Effects | Natural Water Animations
+   ======================================== */
+
+/* ========================================
+   WATER SURFACE WAVE ANIMATION
+   ======================================== */
+
+.water-surface {
+  animation: wave 3s ease-in-out infinite;
+}
+
+@keyframes wave {
+  0%, 100% {
+    transform: scaleY(0.5) translateY(0);
+  }
+  50% {
+    transform: scaleY(0.5) translateY(-3px);
+  }
+}
+
+.glass-water-surface {
+  animation: glass-wave 2.5s ease-in-out infinite;
+}
+
+@keyframes glass-wave {
+  0%, 100% {
+    transform: scaleY(0.5) translateY(0);
+  }
+  50% {
+    transform: scaleY(0.5) translateY(-2px);
+  }
+}
+
+/* ========================================
+   BUBBLES ANIMATION
+   ======================================== */
+
+.water-bubbles::before,
+.water-bubbles::after {
+  content: '';
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 50%;
+  animation: bubble-rise 4s ease-in-out infinite;
+}
+
+.water-bubbles::before {
+  left: 20%;
+  animation-delay: 0s;
+}
+
+.water-bubbles::after {
+  left: 60%;
+  animation-delay: 2s;
+}
+
+@keyframes bubble-rise {
+  0% {
+    bottom: 10px;
+    transform: scale(1);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 0.5;
+  }
+  100% {
+    bottom: 100%;
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
+/* ========================================
+   POUR ANIMATION - More Realistic
+   ======================================== */
+
+.bottle-3d.pouring {
+  animation: bottle-tilt 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes bottle-tilt {
+  0% {
+    transform: rotate(0deg) translateY(0);
+  }
+  30% {
+    transform: rotate(-35deg) translateY(-5px);
+  }
+  70% {
+    transform: rotate(-35deg) translateY(-5px);
+  }
+  100% {
+    transform: rotate(0deg) translateY(0);
+  }
+}
+
+.water-stream.active {
+  animation: stream-flow 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes stream-flow {
+  0% {
+    height: 0;
+    opacity: 0;
+  }
+  15% {
+    height: 180px;
+    opacity: 1;
+  }
+  85% {
+    height: 180px;
+    opacity: 1;
+  }
+  100% {
+    height: 0;
+    opacity: 0;
+  }
+}
+
+.water-stream {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%) rotate(-35deg);
+  transform-origin: top center;
+  width: 20px;
+  height: 0;
+  overflow: visible;
+}
+
+.bottle-3d.pouring .water-stream {
+  animation: stream-arc 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes stream-arc {
+  0% {
+    height: 0;
+    opacity: 0;
+    transform: translateX(-50%) rotate(-35deg) translateX(0);
+  }
+  15% {
+    height: 220px;
+    opacity: 1;
+    transform: translateX(-50%) rotate(-35deg) translateX(-120px);
+  }
+  85% {
+    height: 220px;
+    opacity: 1;
+    transform: translateX(-50%) rotate(-35deg) translateX(-120px);
+  }
+  100% {
+    height: 0;
+    opacity: 0;
+    transform: translateX(-50%) rotate(-35deg) translateX(-120px);
+  }
+}
+
+/* Main stream body */
+.water-stream::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 12px;
+  height: 100%;
+  background: linear-gradient(90deg,
+    rgba(186, 230, 253, 0.35) 0%,
+    rgba(125, 211, 252, 0.38) 30%,
+    rgba(56, 189, 248, 0.40) 50%,
+    rgba(14, 165, 233, 0.38) 70%,
+    rgba(2, 132, 199, 0.35) 100%
+  );
+  border-radius: 6px;
+  box-shadow: 
+    0 0 20px rgba(56, 189, 248, 0.25),
+    inset 0 0 10px rgba(255, 255, 255, 0.2);
+  animation: stream-wobble 0.2s ease-in-out infinite;
+}
+
+/* Secondary stream for depth */
+.water-stream::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 8px;
+  height: 100%;
+  background: linear-gradient(180deg,
+    rgba(255, 255, 255, 0.25) 0%,
+    rgba(186, 230, 253, 0.15) 50%,
+    rgba(125, 211, 252, 0.08) 100%
+  );
+  border-radius: 4px;
+  animation: stream-wobble-secondary 0.25s ease-in-out infinite reverse;
+}
+
+@keyframes stream-wobble {
+  0%, 100% {
+    transform: translateX(-50%) skewX(-2deg) scaleX(1);
+  }
+  50% {
+    transform: translateX(-50%) skewX(2deg) scaleX(1.1);
+  }
+}
+
+@keyframes stream-wobble-secondary {
+  0%, 100% {
+    transform: translateX(-50%) skewX(1deg) scaleX(0.9);
+  }
+  50% {
+    transform: translateX(-50%) skewX(-1deg) scaleX(1);
+  }
+}
+
+/* Droplets */
+.water-droplets {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 30px;
+  height: 100%;
+  pointer-events: none;
+}
+
+.water-droplets::before,
+.water-droplets::after {
+  content: '';
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: rgba(186, 230, 253, 0.4);
+  border-radius: 50%;
+  animation: droplet-fall 0.4s linear infinite;
+}
+
+.water-droplets::before {
+  left: 20%;
+  animation-delay: 0s;
+}
+
+.water-droplets::after {
+  left: 80%;
+  animation-delay: 0.2s;
+}
+
+@keyframes droplet-fall {
+  0% {
+    top: 0;
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    top: 100%;
+    opacity: 0;
+    transform: scale(0.5);
+  }
+}
+
+/* Splash effect at bottom */
+.water-splash {
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 20px;
+  opacity: 0;
+}
+
+.water-stream.active .water-splash {
+  animation: splash-appear 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.water-splash::before,
+.water-splash::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  width: 6px;
+  height: 6px;
+  background: rgba(186, 230, 253, 0.35);
+  border-radius: 50%;
+}
+
+.water-splash::before {
+  left: 20%;
+  animation: splash-left 0.5s ease-out infinite;
+}
+
+.water-splash::after {
+  right: 20%;
+  animation: splash-right 0.5s ease-out infinite;
+}
+
+@keyframes splash-appear {
+  0%, 10% {
+    opacity: 0;
+  }
+  15%, 85% {
+    opacity: 1;
+  }
+  90%, 100% {
+    opacity: 0;
+  }
+}
+
+@keyframes splash-left {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-15px, -20px) scale(0.3);
+    opacity: 0;
+  }
+}
+
+@keyframes splash-right {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(15px, -20px) scale(0.3);
+    opacity: 0;
+  }
+}
+
+.glass-3d.filling {
+  animation: glass-shake 0.6s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+}
+
+@keyframes glass-shake {
+  0%, 100% {
+    transform: translateX(0) rotate(0deg);
+  }
+  20% {
+    transform: translateX(-4px) rotate(-1deg);
+  }
+  40% {
+    transform: translateX(4px) rotate(1deg);
+  }
+  60% {
+    transform: translateX(-3px) rotate(-0.5deg);
+  }
+  80% {
+    transform: translateX(3px) rotate(0.5deg);
+  }
+}
+
+/* ========================================
+   DRINK ANIMATION (Water Disappearing) - More Natural
+   ======================================== */
+
+.glass-water.drinking {
+  animation: water-drink 2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes water-drink {
+  0% {
+    height: var(--drink-height);
+    opacity: 1;
+    transform: translateY(0);
+  }
+  20% {
+    height: calc(var(--drink-height) * 0.6);
+    opacity: 0.95;
+    transform: translateY(5px);
+  }
+  40% {
+    height: calc(var(--drink-height) * 0.3);
+    opacity: 0.85;
+    transform: translateY(10px);
+  }
+  60% {
+    height: calc(var(--drink-height) * 0.1);
+    opacity: 0.6;
+    transform: translateY(15px);
+  }
+  80% {
+    height: 0%;
+    opacity: 0.3;
+    transform: translateY(20px);
+  }
+  100% {
+    height: 0%;
+    opacity: 0;
+    transform: translateY(25px);
+  }
+}
+
+.glass-3d.drinking {
+  animation: glass-tilt-drink 2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes glass-tilt-drink {
+  0% {
+    transform: rotate(0deg) translateY(0);
+  }
+  25% {
+    transform: rotate(50deg) translateY(-10px);
+  }
+  75% {
+    transform: rotate(50deg) translateY(-10px);
+  }
+  100% {
+    transform: rotate(0deg) translateY(0);
+  }
+}
+
+.glass-water-surface.drinking {
+  animation: surface-drain 2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes surface-drain {
+  0% {
+    transform: scaleY(0.4) translateY(0);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scaleY(0.4) translateY(100%);
+    opacity: 0;
+  }
+}
+
+/* ========================================
+   SUCCESS CELEBRATION
+   ======================================== */
+
+.celebration {
+  animation: celebrate 0.6s ease-in-out;
+}
+
+@keyframes celebrate {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+/* ========================================
+   SCREEN TRANSITIONS
+   ======================================== */
+
+.screen {
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.screen.fade-out {
+  opacity: 0;
+  transform: scale(0.95);
+}
+
+.screen.fade-in {
+  opacity: 0;
+  transform: scale(0.95);
+  animation: screen-enter 0.5s ease forwards;
+}
+
+@keyframes screen-enter {
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ========================================
+   BUTTON HOVER EFFECTS
+   ======================================== */
+
+.btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.btn:active::after {
+  width: 300px;
+  height: 300px;
+}
+
+/* ========================================
+   PROGRESS BAR ANIMATION
+   ======================================== */
+
+.progress-value {
+  transition: color 0.3s ease;
+}
+
+.progress-value.goal-reached {
+  color: var(--success);
+  animation: pulse 0.5s ease;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+/* ========================================
+   NOTIFICATION PULSE
+   ======================================== */
+
+.notification-status {
+  transition: all 0.3s ease;
+}
+
+.notification-status.reminder-due {
+  background: var(--success);
+  color: white;
+  animation: notification-pulse 2s ease-in-out infinite;
+}
+
+.notification-status.reminder-due svg {
+  color: white;
+}
+
+@keyframes notification-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 10px rgba(16, 185, 129, 0);
+  }
+}
+
+/* ========================================
+   WATER RIPPLE EFFECT
+   ======================================== */
+
+.water-3d::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s, opacity 0.6s;
+}
+
+.water-3d.ripple::before {
+  width: 200px;
+  height: 200px;
+  opacity: 0;
+}
+
+/* ========================================
+   GLASS REFLECTION SHIMMER
+   ======================================== */
+
+.bottle-reflection,
+.glass-reflection {
+  animation: shimmer 3s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0%, 100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* ========================================
+   FLOATING ANIMATION FOR ICONS
+   ======================================== */
+
+.logo-icon {
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* ========================================
+   LOADING SPINNER (for future use)
+   ======================================== */
+
+.spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
